@@ -118,7 +118,7 @@ int main()
 
 
 	}
-	int b0op = 55;
+	
 }
 
 DWORD getoffset(DWORD rva, PIMAGE_SECTION_HEADER sh, PIMAGE_NT_HEADERS nth)
