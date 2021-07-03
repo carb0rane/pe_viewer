@@ -20,7 +20,7 @@ typedef struct offset {
 int main()
 
 {
-	LPCWSTR file_address = L"C:/Users/thisi/OneDrive/Documents/cpp/Project1/Debug/a1.exe";
+	LPCWSTR file_address = L"{ADD YOUR FILE LINK HERE }";
 	HANDLE filehndl = CreateFile(file_address, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	DWORD bytes_read,file_size = GetFileSize(filehndl, NULL);
 	PVOID fileptr = VirtualAlloc(NULL,file_size,MEM_COMMIT,PAGE_READWRITE) ;
