@@ -42,8 +42,8 @@ int main()
 		
 	std::cout << "Sections : " << file_header->NumberOfSections << std::endl;
 	std::cout << "Time & Date : " << file_header->TimeDateStamp<< std::endl;
-	/*
-	 HEX DUMP
+	
+	 // HEX DUMP 
 	POffset hex = POffset(fileptr);
 	int hex_counter = file_size;
 	while (hex != NULL) {
@@ -72,8 +72,8 @@ int main()
 		else
 			break;
 	}
-	 End of Hex Dump 
-	*/
+	 // End of Hex Dump 
+	
 
 	// Section Details
 
@@ -98,9 +98,9 @@ int main()
 	}
 	
 
-	//PIMAGE_DATA_DIRECTORY data_directory = (PIMAGE_DATA_DIRECTORY)(PIMAGE_OPTIONAL_HEADER)(IMAGE_NT_HEADERS);
-
 	
+
+	// IMPORTS
 	
 	PIMAGE_IMPORT_DESCRIPTOR import_descriptor = (PIMAGE_IMPORT_DESCRIPTOR)((DWORD_PTR)fileptr + getoffset(nt_headers->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress, section_header, nt_headers));
 	std::cout << "~~~~~~~~~~~~~~~~~~~~~ Import Table ~~~~~~~~~~~~~~~~~~~~" << std::endl;
