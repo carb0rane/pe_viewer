@@ -1,4 +1,4 @@
-﻿/*███████████  ██████████    █████   █████  ███
+/*███████████  ██████████    █████   █████  ███
 ░░███░░░░░███░░███░░░░░█   ░░███   ░░███  ░░░
 ░███    ░███ ░███  █ ░     ░███    ░███  ████   ██████  █████ ███ █████  ██████  ████████
 ░██████████  ░██████       ░███    ░███ ░░███  ███░░███░░███ ░███░░███  ███░░███░░███░░███
@@ -20,7 +20,7 @@ typedef struct offset {
 int main()
 
 {
-	LPCWSTR file_address = L"{ADD YOUR FILE LINK HERE }";
+	LPCWSTR file_address = L"{ FILE LOCATION GOES HERE }";
 	HANDLE filehndl = CreateFile(file_address, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	DWORD bytes_read,file_size = GetFileSize(filehndl, NULL);
 	PVOID fileptr = VirtualAlloc(NULL,file_size,MEM_COMMIT,PAGE_READWRITE) ;
@@ -41,9 +41,9 @@ int main()
 
 		
 	std::cout << "Sections : " << file_header->NumberOfSections << std::endl;
-	std::cout << "Time & Date : " << file_header->TimeDateStamp<< std::endl;
+	std::cout << "Time & Date : " << file_header->TimeDateStamp << std::endl;
 	
-	 // HEX DUMP 
+	// HEX DUMP
 	POffset hex = POffset(fileptr);
 	int hex_counter = file_size;
 	while (hex != NULL) {
@@ -72,7 +72,7 @@ int main()
 		else
 			break;
 	}
-	 // End of Hex Dump 
+	// End of Hex Dump 
 	
 
 	// Section Details
@@ -94,21 +94,24 @@ int main()
 		std::cout << "Number of Line Numbers :  " << pish->NumberOfLinenumbers << std::endl;
 		std::cout << "Number of Relocations :  " << pish->NumberOfRelocations << std::endl;
 		pish++;
-		//section_header += 28;
 	}
 	
 
 	
 
-	// IMPORTS
+	
 	
 	PIMAGE_IMPORT_DESCRIPTOR import_descriptor = (PIMAGE_IMPORT_DESCRIPTOR)((DWORD_PTR)fileptr + getoffset(nt_headers->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress, section_header, nt_headers));
 	std::cout << "~~~~~~~~~~~~~~~~~~~~~ Import Table ~~~~~~~~~~~~~~~~~~~~" << std::endl;
+	std::cout << "~~~ NAME ~~~ \t\t ~~~ OriginalFirstThunk ~~~ \t\t ~~~ FirstThunk ~~~" << std::endl;
 	while (import_descriptor->Name != NULL)
 	{
 		
 		PCHAR dll = (PCHAR)((DWORD_PTR)fileptr + getoffset(import_descriptor->Name, section_header, nt_headers));
-		std::cout <<"\t"<< dll << std::endl;
+		DWORD original_ft= (DWORD)((DWORD_PTR)fileptr + getoffset(import_descriptor->OriginalFirstThunk, section_header, nt_headers));
+		DWORD FirstThunk = (DWORD)((DWORD_PTR)fileptr + getoffset(import_descriptor->FirstThunk, section_header, nt_headers));
+		std::cout << " " << dll << "\t\t" << original_ft << "\t\t" << FirstThunk << std::endl;
+		
 		import_descriptor++;
 
 
